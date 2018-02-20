@@ -651,9 +651,12 @@ export default class GooglePlacesAutocomplete extends Component {
     if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && this.state.listViewDisplayed === true) {
       return (
         <Card style={{
+          position: 'absolute',    
+          top: 45,          
           marginBottom: 5,
           paddingBottom: 5,
-          borderRadius: 0
+          borderRadius: 0,
+          zIndex: 4
         }} >
           <Card.Body style={{
             padding: 10,
@@ -662,7 +665,6 @@ export default class GooglePlacesAutocomplete extends Component {
             paddingLeft: 15
           }}>
             <FlatList
-              style={[defaultStyles.listView, this.props.styles.listView]}
               data={this.state.dataSource}
               keyExtractor={keyGenerator}
               extraData={[this.state.dataSource, this.props]}
