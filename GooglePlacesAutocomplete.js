@@ -646,7 +646,6 @@ export default class GooglePlacesAutocomplete extends Component {
     );
 
     if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && this.state.listViewDisplayed === true) {
-      console.log(this.state.dataSource)
       return (
         <Card style={{
           position: 'absolute',
