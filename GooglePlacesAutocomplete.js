@@ -43,8 +43,7 @@ const defaultStyles = {
     flex: 1
   },
   poweredContainer: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignSelf: 'flex-end',    
     backgroundColor: '#FFFFFF',
   },
   powered: {},
@@ -127,7 +126,7 @@ export default class GooglePlacesAutocomplete extends Component {
     // This will load the default value's search results after the view has
     // been rendered
     this._isMounted = true;
-    this._onChangeText(this.state.text);
+    this._onChangeText(this.state.text, false);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -488,17 +487,17 @@ export default class GooglePlacesAutocomplete extends Component {
     }
   }
 
-  _onChangeText = (text) => {
+  _onChangeText = (text, listDisplay) => {
     this._request(text);
 
     this.setState({
       text: text,
-      listViewDisplayed: true,
+      listViewDisplayed: listDisplay,
     });
   }
 
   _handleChangeText = (text) => {
-    this._onChangeText(text);
+    this._onChangeText(text, true);
 
     const onChangeText = this.props
       && this.props.textInputProps
@@ -651,8 +650,8 @@ export default class GooglePlacesAutocomplete extends Component {
     if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && this.state.listViewDisplayed === true) {
       return (
         <Card style={{
-          position: 'absolute',    
-          top: 45,          
+          position: 'absolute',
+          top: 45,
           marginBottom: 5,
           paddingBottom: 5,
           borderRadius: 0,
@@ -665,12 +664,15 @@ export default class GooglePlacesAutocomplete extends Component {
             paddingLeft: 15
           }}>
             <FlatList
+              scrollEnabled={true}
               data={this.state.dataSource}
               keyExtractor={keyGenerator}
               extraData={[this.state.dataSource, this.props]}
               ItemSeparatorComponent={this._renderSeparator}
               renderItem={({ item }) => this._renderRow(item)}
+              ListFooterComponent={this._renderPoweredLogo}
               {...this.props}
+
             />
           </Card.Body>
         </Card>
