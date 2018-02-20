@@ -12,11 +12,11 @@ import {
   TouchableHighlight,
   Platform,
   ActivityIndicator,
-  PixelRatio
+  PixelRatio,
 } from 'react-native';
 import Qs from 'qs';
 import debounce from 'lodash.debounce';
-import { Card } from 'antd-mobile';
+import { Card, Button } from 'antd-mobile';
 
 const WINDOW = Dimensions.get('window');
 
@@ -43,7 +43,7 @@ const defaultStyles = {
     flex: 1
   },
   poweredContainer: {
-    alignSelf: 'flex-end',    
+    alignSelf: 'flex-end',
     backgroundColor: '#FFFFFF',
   },
   powered: {},
@@ -523,9 +523,7 @@ export default class GooglePlacesAutocomplete extends Component {
     }
 
     return (
-      <Text style={[{ flex: 1 }, defaultStyles.description, this.props.styles.description, rowData.isPredefinedPlace ? this.props.styles.predefinedPlacesDescription : {}]}
-        numberOfLines={1}
-      >
+      <Text style={[{ flex: 1 }, defaultStyles.description, this.props.styles.description, rowData.isPredefinedPlace ? this.props.styles.predefinedPlacesDescription : {}]}>
         {this._renderDescription(rowData)}
       </Text>
     );
@@ -648,6 +646,7 @@ export default class GooglePlacesAutocomplete extends Component {
     );
 
     if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && this.state.listViewDisplayed === true) {
+      console.log(this.state.dataSource)
       return (
         <Card style={{
           position: 'absolute',
@@ -670,7 +669,6 @@ export default class GooglePlacesAutocomplete extends Component {
               extraData={[this.state.dataSource, this.props]}
               ItemSeparatorComponent={this._renderSeparator}
               renderItem={({ item }) => this._renderRow(item)}
-              ListFooterComponent={this._renderPoweredLogo}
               {...this.props}
 
             />
@@ -689,7 +687,11 @@ export default class GooglePlacesAutocomplete extends Component {
     return (
       <View >
         {!this.props.textInputHide &&
-          <View style={{ position: 'relative' }}>
+          <View style={{
+            position: 'relative',
+            flexDirection: 'row',
+            flexWrap: 'wrap'
+          }}>
             {this._renderLeftButton()}
             <TextInput
               ref="textInput"
@@ -706,6 +708,16 @@ export default class GooglePlacesAutocomplete extends Component {
               { ...userProps }
               onChangeText={this._handleChangeText}
             />
+            {this.state.listViewDisplayed ?
+              <View>
+                <Text> </Text>
+                <Button
+                  size='small'
+                  onClick={this._onBlur}>
+                  X
+              </Button>
+              </View>
+              : <View />}
             {this._renderRightButton()}
           </View>
         }
