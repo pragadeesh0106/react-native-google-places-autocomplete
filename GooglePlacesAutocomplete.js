@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import Qs from 'qs';
 import debounce from 'lodash.debounce';
+import { Card } from 'antd-mobile';
 
 const WINDOW = Dimensions.get('window');
 
@@ -649,15 +650,28 @@ export default class GooglePlacesAutocomplete extends Component {
 
     if ((this.state.text !== '' || this.props.predefinedPlaces.length || this.props.currentLocation === true) && this.state.listViewDisplayed === true) {
       return (
-        <FlatList
-          style={[defaultStyles.listView, this.props.styles.listView]}
-          data={this.state.dataSource}
-          keyExtractor={keyGenerator}
-          extraData={[this.state.dataSource, this.props]}
-          ItemSeparatorComponent={this._renderSeparator}
-          renderItem={({ item }) => this._renderRow(item)}
-          {...this.props}
-        />
+        <Card style={{
+          marginBottom: 5,
+          paddingBottom: 5,
+          borderRadius: 0
+        }} >
+          <Card.Body style={{
+            padding: 10,
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 15
+          }}>
+            <FlatList
+              style={[defaultStyles.listView, this.props.styles.listView]}
+              data={this.state.dataSource}
+              keyExtractor={keyGenerator}
+              extraData={[this.state.dataSource, this.props]}
+              ItemSeparatorComponent={this._renderSeparator}
+              renderItem={({ item }) => this._renderRow(item)}
+              {...this.props}
+            />
+          </Card.Body>
+        </Card>
       );
     }
 
